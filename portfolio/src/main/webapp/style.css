@@ -1,9 +1,29 @@
 #content {
   margin-left: auto;
   margin-right: auto;
-  width: 650px;
+  width: 800px;
 }
 
 #greeting-container {
   margin-top: 20px;
+}
+
+body {
+    font: normal 20px Verdana, Arial, sans-serif;
+}
+
+#content-title {
+    margin-top: 20px;
+}
+
+#content-panel {
+    margin-top: 10px;
+}
+
+.tabbed-paragraph {
+    text-indent: 30px;
+}
+
+.bottom-paragraph {
+    margin-bottom: 20px;
 }
