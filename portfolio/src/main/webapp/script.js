@@ -26,3 +26,28 @@ function addRandomGreeting() {
   const greetingContainer = document.getElementById('greeting-container');
   greetingContainer.innerText = greeting;
 }
+
+function displayAbout() {
+    const title = document.getElementById('content-title');
+    title.innerText = "Here is some background information about me:";
+    $(function(){
+        $("#content-panel").load("pages/aboutme.html"); 
+    });
+}
+
+function displayHobbies() {
+    const title = document.getElementById('content-title');
+    title.innerText = "This is a list of my main hobbies:";
+    $(function(){
+        $("#content-panel").load("pages/hobbies.html"); 
+    });
+}
+
+function activateListItem() {
+    $(document).ready(function() { 
+            $('li').click(function() { 
+                $('li.list-group-item.active').removeClass("active"); 
+                $(this).addClass("active"); 
+            }); 
+        });
+}
