@@ -2,17 +2,48 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>My Portfolio</title>
-    <link rel="stylesheet" href="style.css">
+       <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Inggriany Dwitami</title>
+
+    <link rel="stylesheet" href="style.css"> 
     <script src="script.js"></script>
-  </head>
+
+    <!-- Fixes favicon.ico error -->
+    <link rel="shortcut icon" href="">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBv7O45aUH5YEHh5qaNNd-_PSssUnvxW4M"></script>
+
+    <!-- ADD BOOTSTRAP -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
   <body>
+      
     <div id="content">
-      <h1>My Portfolio</h1>
-      <p>This is my portfolio.</p>
-      <p>Click here to get a random message:</p>
-      <button onclick="addRandomGreeting()">Hello</button>
-      <div id="greeting-container"></div>
+
+        <h1>Hello, everyone!</h1>
+        <h3>Welcome to my personal portfolio.</h3>
+        <p>Here I hope that you will gain some insights about my technical work, hobbies, ambitions, favorite movies, and so on.
+            <br>
+            Anyways, are you ready to get started?
+        </p>
+
+        <img src="images/kusuriya.jpg" alt="Kusuriya" width="200">
+        <p>This is my current favourite manga!</p>
+
+        <section id='dynamic-content'>
+            <button class="btn btn-primary" onclick="displayAbout()">About me</button>
+            <button class="btn btn-primary" onclick="displayHobbies()">Hobbies</button>
+            <a class="btn btn-primary" href="/Inggriany_s_CV.pdf">Resume</a>
+            <a class="btn btn-primary" href="https://github.com/riku1212/">GitHub</a>
+            <a class="btn btn-primary" href="https://www.linkedin.com/in/inggriany-dwitami">LinkedIn</a>
+            <h3 id="content-title"></h3>
+            <div id="content-panel"></div>
+        </section>
     </div>
   </body>
 </html>
