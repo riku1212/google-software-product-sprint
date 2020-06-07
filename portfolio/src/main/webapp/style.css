@@ -3,7 +3,31 @@
   margin-right: auto;
   width: 650px;
 }
-
+a
 #greeting-container {
   margin-top: 20px;
+}
+
+#content-title {
+    margin-top: 20px;
+}
+
+#content-panel {
+    margin-top: 10px;
+}
+
+.tabbed-paragraph {
+    text-indent: 30px;
+    text-align:justify;
+}
+
+.bottom-paragraph {
+    margin-bottom: 20px;
+    text-align:justify;
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
