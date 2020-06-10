@@ -54,5 +54,7 @@ function getComments() {
 function createListElement(text){
     const listElement = document.createElement('li');
     listElement.innerText = text;
+    listElement.setAttribute('class', 'list-group-item');
+    listElement.setAttribute('onclick', 'activateListItem()')
     return listElement;
 }
