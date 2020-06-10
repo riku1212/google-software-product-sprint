@@ -27,6 +27,7 @@ function addRandomGreeting() {
   greetingContainer.innerText = greeting;
 }
 
+// loads aboutme.html page
 function displayAbout() {
     const title = document.getElementById('content-title');
     title.innerText = "Here is some background information about me:";
@@ -35,6 +36,7 @@ function displayAbout() {
     });
 }
 
+// loads hobbies.html page
 function displayHobbies() {
     const title = document.getElementById('content-title');
     title.innerText = "This is a list of my main hobbies:";
@@ -43,6 +45,7 @@ function displayHobbies() {
     });
 }
 
+// deactivate previous button and activate clicked button
 function activateListItem() {
     $(document).ready(function() { 
             $('li').click(function() { 
@@ -50,4 +53,11 @@ function activateListItem() {
                 $(this).addClass("active"); 
             }); 
         });
+}
+
+//adds hello message using fetch
+function getHelloMessage() {
+    fetch('/data').then(response => response.text()).then((message) => {
+        document.getElementById('message-container').innerHTML = message;
+  });
 }
