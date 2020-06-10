@@ -12,21 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * Adds a random greeting to the page.
- */
-function addRandomGreeting() {
-  const greetings =
-      ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!'];
-
-  // Pick a random greeting.
-  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
-
-  // Add it to the page.
-  const greetingContainer = document.getElementById('greeting-container');
-  greetingContainer.innerText = greeting;
-}
-
 // loads aboutme.html page
 function displayAbout() {
     const title = document.getElementById('content-title');
@@ -55,9 +40,19 @@ function activateListItem() {
         });
 }
 
-//adds hello message using fetch
-function getHelloMessage() {
-    fetch('/data').then(response => response.text()).then((message) => {
-        document.getElementById('message-container').innerHTML = message;
-  });
+//fetch comments 
+function getComments() {
+    fetch('/data').then(response => response.json()).then(commentsList => {
+        const commentContainer = document.getElementById('comment-container');
+        commentsList.forEach(comment => {
+            commentContainer.append(createListElement(comment));
+        });
+    });
+}
+
+// make list element from text
+function createListElement(text){
+    const listElement = document.createElement('li');
+    listElement.innerText = text;
+    return listElement;
 }
