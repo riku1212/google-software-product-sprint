@@ -15,8 +15,13 @@
 package com.google.sps.servlets;
 
 import com.google.gson.Gson;
-import java.io.IOException;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
 import java.util.ArrayList;
+import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -26,16 +31,21 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-  private ArrayList<String> commentsList;
-
-  public void init(){
-    commentsList = new ArrayList<String>();
-  }
-
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    Query query = new Query("userComment");
+    
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    PreparedQuery results = datastore.prepare(query);
+
+    ArrayList<String> commentList = new ArrayList<>();
+    for (Entity entity : results.asIterable()) {
+        String comment = (String) entity.getProperty("comment");
+        commentList.add(comment);
+    }
+
     response.setContentType("application/json;");
-    response.getWriter().println(convertToJsonUsingGson(commentsList));
+    response.getWriter().println(convertToJsonUsingGson(commentList));
   }
 
   @Override
@@ -48,7 +58,12 @@ public class DataServlet extends HttpServlet {
         response.getWriter().println("Please input your comment.");
         return;
     }
-    commentsList.add(userComment);
+
+    Entity commentEntity = new Entity("userComment");
+    commentEntity.setProperty("comment", userComment);
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(commentEntity);
 
     // redirect back 
     response.sendRedirect("/index.html");
