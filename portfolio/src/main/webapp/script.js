@@ -40,12 +40,18 @@ function activateListItem() {
         });
 }
 
-//fetch comments 
+// fetch comments 
 function getComments() {
     fetch('/data').then(response => response.json()).then(commentsList => {
         const commentContainer = document.getElementById('comment-container');
         commentsList.forEach(comment => {
-            commentContainer.append(createListElement(comment));
+            commentContainer.append(
+                createListElement(
+                    "[" + convertISOtoString(comment.timestamp) + "] " + 
+                    comment.name + ": " + 
+                    comment.comment
+                )
+            );
         });
     });
 }
@@ -57,4 +63,28 @@ function createListElement(text){
     listElement.setAttribute('class', 'list-group-item');
     listElement.setAttribute('onclick', 'activateListItem()')
     return listElement;
+}
+
+//convert ISO timezone to yyyy-mm-dd hh:mm
+function convertISOtoString(timestamp) {
+    console.log(timestamp);
+    timestamp = new Date(timestamp);
+    console.log(timestamp);
+
+    year = "" + timestamp.getFullYear();
+    month = padZero(timestamp.getMonth() + 1);
+    day = padZero(timestamp.getDate());
+    hour = padZero(timestamp.getHours());
+    minute = padZero(timestamp.getMinutes());
+
+    return year + "-" + month + "-" + day + " " + hour + ":" + minute;
+}
+
+// utility function to pad zero in front of month, day, hour, minute
+function padZero(text) {
+    text = "" + text;
+    if (text.length < 2) {
+        text = "0" + text;
+    }
+    return text;
 }
