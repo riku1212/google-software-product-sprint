@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="style.css"> 
     <script src="script.js"></script>
 
-  <body>
+  <body onload="getComments()">
     <div id="content">
         <h1>Hello, everyone!</h1>
         <h3>Welcome to my personal portfolio.</h3>
@@ -37,6 +37,19 @@
             <h3 id="content-title"></h3>
             <div id="content-panel"></div>
         </section>
+
+        <h2>This is the comments section!</h2>
+        <form action="/data" method="POST">
+            <p>Leave your comments here: </p>
+            <textarea name="user-comment"></textarea>
+            <br/>
+            <input type="submit" />  
+        </form>
+
+        <br/>
+
+        <p>See your comments here: </p>
+        <ul class="list-group" id="comment-container"></ul>
     </div>
   </body>
 </html>
