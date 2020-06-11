@@ -3,9 +3,9 @@
   margin-right: auto;
   width: 650px;
 }
-a
-#greeting-container {
-  margin-top: 20px;
+
+#comment-container {
+  margin: 15px;
 }
 
 #content-title {
