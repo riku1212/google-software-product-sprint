@@ -19,9 +19,9 @@ public final class Comment {
 
     private final String name;
     private final String comment;
-    private final String timestamp;
+    private final long timestamp;
 
-    public Comment(String name, String comment, String timestamp) {
+    public Comment(String name, String comment, long timestamp) {
         this.name = name;
         this.comment = comment;
         this.timestamp = timestamp;

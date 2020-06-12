@@ -67,9 +67,7 @@ function createListElement(text){
 
 //convert ISO timezone to yyyy-mm-dd hh:mm
 function convertISOtoString(timestamp) {
-    console.log(timestamp);
     timestamp = new Date(timestamp);
-    console.log(timestamp);
 
     year = "" + timestamp.getFullYear();
     month = padZero(timestamp.getMonth() + 1);

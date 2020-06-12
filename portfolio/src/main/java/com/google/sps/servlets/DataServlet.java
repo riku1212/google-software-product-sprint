@@ -23,9 +23,7 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.sps.data.Comment; 
 import java.util.ArrayList;
-import java.util.TimeZone;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -46,7 +44,7 @@ public class DataServlet extends HttpServlet {
     for (Entity entity : results.asIterable()) {
         String userName = (String) entity.getProperty("name");
         String userComment = (String) entity.getProperty("comment");
-        String timestamp = (String) entity.getProperty("timestamp");
+        long timestamp = (long) entity.getProperty("timestamp");
 
         Comment comment = new Comment(userName, userComment, timestamp);
         commentList.add(comment);
@@ -58,7 +56,7 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String timestamp = LocalDateTime.now(TimeZone.getTimeZone("Asia/Singapore").toZoneId()).toString();
+    long timestamp = System.currentTimeMillis();
     String userName = request.getParameter("user-name");
     String userComment = request.getParameter("user-comment");
 
