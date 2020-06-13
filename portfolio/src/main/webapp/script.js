@@ -12,21 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * Adds a random greeting to the page.
- */
-function addRandomGreeting() {
-  const greetings =
-      ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!'];
-
-  // Pick a random greeting.
-  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
-
-  // Add it to the page.
-  const greetingContainer = document.getElementById('greeting-container');
-  greetingContainer.innerText = greeting;
-}
-
+// loads aboutme.html page
 function displayAbout() {
     const title = document.getElementById('content-title');
     title.innerText = "Here is some background information about me:";
@@ -35,6 +21,7 @@ function displayAbout() {
     });
 }
 
+// loads hobbies.html page
 function displayHobbies() {
     const title = document.getElementById('content-title');
     title.innerText = "This is a list of my main hobbies:";
@@ -43,6 +30,7 @@ function displayHobbies() {
     });
 }
 
+// deactivate previous button and activate clicked button
 function activateListItem() {
     $(document).ready(function() { 
             $('li').click(function() { 
@@ -50,4 +38,51 @@ function activateListItem() {
                 $(this).addClass("active"); 
             }); 
         });
+}
+
+// fetch comments 
+function getComments() {
+    fetch('/data').then(response => response.json()).then(commentsList => {
+        const commentContainer = document.getElementById('comment-container');
+        commentsList.forEach(comment => {
+            commentContainer.append(
+                createListElement(
+                    "[" + convertISOtoString(comment.timestamp) + "] " + 
+                    comment.name + ": " + 
+                    comment.comment
+                )
+            );
+        });
+    });
+}
+
+// make list element from text
+function createListElement(text){
+    const listElement = document.createElement('li');
+    listElement.innerText = text;
+    listElement.setAttribute('class', 'list-group-item');
+    listElement.setAttribute('onclick', 'activateListItem()')
+    return listElement;
+}
+
+//convert ISO timezone to yyyy-mm-dd hh:mm
+function convertISOtoString(timestamp) {
+    timestamp = new Date(timestamp);
+
+    year = "" + timestamp.getFullYear();
+    month = padZero(timestamp.getMonth() + 1);
+    day = padZero(timestamp.getDate());
+    hour = padZero(timestamp.getHours());
+    minute = padZero(timestamp.getMinutes());
+
+    return year + "-" + month + "-" + day + " " + hour + ":" + minute;
+}
+
+// utility function to pad zero in front of month, day, hour, minute
+function padZero(text) {
+    text = "" + text;
+    if (text.length < 2) {
+        text = "0" + text;
+    }
+    return text;
 }
