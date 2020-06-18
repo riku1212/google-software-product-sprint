@@ -59,38 +59,29 @@ function getComments() {
 // function to create comment form
 function createCommentForm() {
     fetch('/login').then(response => response.json()).then(loginDetails => {
-        const commentFormContainer = document.getElementById('comment-form');
-
-        console.log(loginDetails);
+        const logButtonContainer = document.getElementById('log-button');
+        const logLabel = document.createElement('label');
         
         // display button to log in
         if (!loginDetails.loggedIn) {
             // create login button
-            const form = document.createElement('form');
-            form.setAttribute('action', loginDetails.loginUrl);
-
-            const label = document.createElement('label');
-            label.setAttribute('for', 'user-login');
-            label.innerText = "Please log in to submit your comments.";
-
-            const input = document.createElement('input');
-            input.setAttribute('type', 'submit');
-            input.setAttribute('value', "Log In");
-            input.setAttribute('name', 'user-login');
-
-            form.append(label, document.createElement('br'), input);
-            commentFormContainer.append(form);
+            logLabel.innerText = "Please login to post comments.";
+            logButton = buttonHref("Log In", loginDetails.loginUrl);
         }
 
         // display comment form
         else {
+            // create logout button
+            logLabel.innerText = "You are now logged in as " + loginDetails.userEmail + ".";
+            logButton = buttonHref("Log Out", loginDetails.logoutUrl);
+
+            // create form
+            const commentFormContainer = document.getElementById('comment-form');
             const form = document.createElement('form');
             form.setAttribute('action', '/data');
-            form.setAttribute('method', 'POST');
+            form.setAttribute('method', "POST");
 
-            // create textarea
             const label = document.createElement('label');
-            label.setAttribute('for', 'user-comment');
             label.innerText = "Leave your comments here: ";
 
             const textarea = document.createElement('textarea');
@@ -100,23 +91,13 @@ function createCommentForm() {
             input.setAttribute('type', 'submit');
 
             form.append(
-                label, document.createElement('br'), 
-                textarea, document.createElement('br'), 
-                input
+                    label, document.createElement('br'), 
+                    textarea, document.createElement('br'), 
+                    input
             );
-
-            // create logout button
-            const logoutForm = document.createElement('form');
-            logoutForm.setAttribute('action', loginDetails.logoutUrl);
-
-            const logOutButton = document.createElement('input');
-            logOutButton.setAttribute('type', 'submit');
-            logOutButton.setAttribute('value', "Log Out");
-            logOutButton.setAttribute('name', 'user-logout');
-
-            logoutForm.append(logOutButton);
-            commentFormContainer.append(form, logoutForm);
+            commentFormContainer.append(form);
         } 
+        logButtonContainer.append(logLabel, document.createElement('br'), logButton);
     });
 }
 
@@ -149,4 +130,13 @@ function padZero(text) {
         text = "0" + text;
     }
     return text;
+}
+
+// make buttons with href onclick
+function buttonHref(text, link) {
+    const button = document.createElement('button');
+    button.setAttribute('class', 'btn-primary');
+    button.addEventListener('click', function() {window.location.href=link;});
+    button.innerText = text;
+    return button;
 }

@@ -38,6 +38,7 @@ public class LoginServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         UserService userService = UserServiceFactory.getUserService();
         String loginUrl=null, logoutUrl=null;
+        String userEmail=null;
         Boolean loggedIn=userService.isUserLoggedIn();
 
         // user not logged in, return login link
@@ -48,9 +49,10 @@ public class LoginServlet extends HttpServlet {
         // user logged in, return logout link
         else {
             logoutUrl = userService.createLogoutURL("/");
+            userEmail = userService.getCurrentUser().getEmail();
         }
 
-        Login loginDetails = new Login(loggedIn, loginUrl, logoutUrl);
+        Login loginDetails = new Login(loggedIn, loginUrl, logoutUrl, userEmail);
 
         response.setContentType("application/json");
         response.getWriter().println(convertToJsonUsingGson(loginDetails));
@@ -59,7 +61,7 @@ public class LoginServlet extends HttpServlet {
 
     // convert to JSON using GSON
     private String convertToJsonUsingGson(Login loginDetails) {
-        Gson gson = new GsonBuilder().serializeNulls().create(); 
+        Gson gson = new GsonBuilder().serializeNulls().disableHtmlEscaping().create(); 
         String json = gson.toJson(loginDetails);
         return json;
   }

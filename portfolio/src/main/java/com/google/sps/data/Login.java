@@ -20,10 +20,12 @@ public final class Login {
     private final Boolean loggedIn;
     private final String loginUrl;
     private final String logoutUrl;
+    private final String userEmail;
 
-    public Login(Boolean loggedIn, String loginUrl, String logoutUrl) {
+    public Login(Boolean loggedIn, String loginUrl, String logoutUrl, String userEmail) {
         this.loggedIn = loggedIn;
         this.loginUrl = loginUrl;
         this.logoutUrl = logoutUrl;
+        this.userEmail = userEmail;
   }
 }
