@@ -53,10 +53,17 @@ public class LoginServlet extends HttpServlet {
             userEmail = userService.getCurrentUser().getEmail();
         }
 
+
+        System.out.println(String.format(
+            "[KaiTest] loginUrl: \"%s\", logoutUrl: \"%s\"", 
+            loginUrl != null ? loginUrl : "null", 
+            logoutUrl != null? logoutUrl : "null"));
         Login loginDetails = new Login(loggedIn, loginUrl, logoutUrl, userEmail);
 
         response.setContentType("application/json");
-        response.getWriter().println(JsonUtility.toJsonDisableHtmlEscaping(loginDetails));
+        String responseJsonString = JsonUtility.toJson(loginDetails);
+        System.out.println(String.format("[KaiTest] Response Json: \"%s\"", responseJsonString));
+        response.getWriter().println(responseJsonString);
         return;
     }
 }
