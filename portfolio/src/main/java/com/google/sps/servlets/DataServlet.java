@@ -24,6 +24,7 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.sps.data.Comment; 
+import com.google.sps.servlets.JsonUtility;
 import java.util.ArrayList;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
@@ -53,7 +54,7 @@ public class DataServlet extends HttpServlet {
     }
 
     response.setContentType("application/json;");
-    response.getWriter().println(convertToJsonUsingGson(commentList));
+    response.getWriter().println(JsonUtility.toJson(commentList));
   }
 
   @Override
@@ -96,12 +97,5 @@ public class DataServlet extends HttpServlet {
         return true;
     }
     return false;
-  }
-
-  // convert to JSON using GSON
-  private String convertToJsonUsingGson(ArrayList<Comment> commentsList) {
-    Gson gson = new Gson();
-    String json = gson.toJson(commentsList);
-    return json;
   }
 }

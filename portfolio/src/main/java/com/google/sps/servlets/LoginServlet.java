@@ -24,6 +24,7 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.sps.data.Login; 
+import com.google.sps.servlets.JsonUtility;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -55,14 +56,7 @@ public class LoginServlet extends HttpServlet {
         Login loginDetails = new Login(loggedIn, loginUrl, logoutUrl, userEmail);
 
         response.setContentType("application/json");
-        response.getWriter().println(convertToJsonUsingGson(loginDetails));
+        response.getWriter().println(JsonUtility.toJsonDisableHtmlEscaping(loginDetails));
         return;
     }
-
-    // convert to JSON using GSON
-    private String convertToJsonUsingGson(Login loginDetails) {
-        Gson gson = new GsonBuilder().serializeNulls().disableHtmlEscaping().create(); 
-        String json = gson.toJson(loginDetails);
-        return json;
-  }
 }
