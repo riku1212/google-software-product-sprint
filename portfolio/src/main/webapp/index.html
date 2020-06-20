@@ -40,7 +40,15 @@
 
         <h2>This is the comments section!</h2>
         <div id="log-button"></div>
-        <div id="comment-form"></div>
+        <div id="comment-form">
+            <form action="/data" method="POST">
+                <label for="user-comment">Leave your comments here: </label>
+                <br/>
+                <textarea name="user-comment"></textarea>
+                <br/>
+                <input type="submit" />  
+            </form>
+        </div>
 
         <br/>
 

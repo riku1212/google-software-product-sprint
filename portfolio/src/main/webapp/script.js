@@ -61,12 +61,16 @@ function createCommentForm() {
     fetch('/login').then(response => response.json()).then(loginDetails => {
         const logButtonContainer = document.getElementById('log-button');
         const logLabel = document.createElement('label');
+        const commentForm = document.getElementById('comment-form');
         
         // display button to log in
         if (!loginDetails.loggedIn) {
             // create login button
             logLabel.innerText = "Please login to post comments.";
             logButton = buttonHref("Log In", loginDetails.loginUrl);
+
+            // hide form
+            commentForm.style.display = "block";
         }
 
         // display comment form
@@ -75,27 +79,8 @@ function createCommentForm() {
             logLabel.innerText = "You are now logged in as " + loginDetails.userEmail + ".";
             logButton = buttonHref("Log Out", loginDetails.logoutUrl);
 
-            // create form
-            const commentFormContainer = document.getElementById('comment-form');
-            const form = document.createElement('form');
-            form.setAttribute('action', '/data');
-            form.setAttribute('method', "POST");
-
-            const label = document.createElement('label');
-            label.innerText = "Leave your comments here: ";
-
-            const textarea = document.createElement('textarea');
-            textarea.setAttribute('name', 'user-comment');
-
-            const input = document.createElement('input');
-            input.setAttribute('type', 'submit');
-
-            form.append(
-                    label, document.createElement('br'), 
-                    textarea, document.createElement('br'), 
-                    input
-            );
-            commentFormContainer.append(form);
+            // show form
+            commentForm.style.display = "none";
         } 
         logButtonContainer.append(logLabel, document.createElement('br'), logButton);
     });
@@ -133,7 +118,7 @@ function padZero(text) {
 }
 
 // make buttons with href onclick
-function buttonHref(text, link) {
+function createButtonHref(text, link) {
     const button = document.createElement('button');
     button.setAttribute('class', 'btn-primary');
     button.addEventListener('click', function() {window.location.href=link;});
