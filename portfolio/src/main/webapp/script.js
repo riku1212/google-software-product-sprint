@@ -67,20 +67,20 @@ function createCommentForm() {
         if (!loginDetails.loggedIn) {
             // create login button
             logLabel.innerText = "Please login to post comments.";
-            logButton = buttonHref("Log In", loginDetails.loginUrl);
+            logButton = createButtonHref("Log In", loginDetails.loginUrl);
 
             // hide form
-            commentForm.style.display = "block";
+            commentForm.style.display = "none";
         }
 
         // display comment form
         else {
             // create logout button
             logLabel.innerText = "You are now logged in as " + loginDetails.userEmail + ".";
-            logButton = buttonHref("Log Out", loginDetails.logoutUrl);
+            logButton = createButtonHref("Log Out", loginDetails.logoutUrl);
 
             // show form
-            commentForm.style.display = "none";
+            commentForm.style.display = "block";
         } 
         logButtonContainer.append(logLabel, document.createElement('br'), logButton);
     });
