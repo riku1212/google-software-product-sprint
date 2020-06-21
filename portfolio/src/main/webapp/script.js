@@ -56,6 +56,36 @@ function getComments() {
     });
 }
 
+// function to create comment form
+function createCommentForm() {
+    fetch('/login').then(response => response.json()).then(loginDetails => {
+        const logButtonContainer = document.getElementById('log-button');
+        const logLabel = document.createElement('label');
+        const commentForm = document.getElementById('comment-form');
+        
+        // display button to log in
+        if (!loginDetails.loggedIn) {
+            // create login button
+            logLabel.innerText = "Please login to post comments.";
+            logButton = createButtonHref("Log In", loginDetails.loginUrl);
+
+            // hide form
+            commentForm.style.display = "none";
+        }
+
+        // display comment form
+        else {
+            // create logout button
+            logLabel.innerText = "You are now logged in as " + loginDetails.userEmail + ".";
+            logButton = createButtonHref("Log Out", loginDetails.logoutUrl);
+
+            // show form
+            commentForm.style.display = "block";
+        } 
+        logButtonContainer.append(logLabel, document.createElement('br'), logButton);
+    });
+}
+
 // make list element from text
 function createListElement(text){
     const listElement = document.createElement('li');
@@ -85,4 +115,13 @@ function padZero(text) {
         text = "0" + text;
     }
     return text;
+}
+
+// make buttons with href onclick
+function createButtonHref(text, link) {
+    const button = document.createElement('button');
+    button.setAttribute('class', 'btn-primary');
+    button.addEventListener('click', function() {window.location.href=link;});
+    button.innerText = text;
+    return button;
 }
