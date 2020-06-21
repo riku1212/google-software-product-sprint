@@ -56,7 +56,7 @@ public class LoginServlet extends HttpServlet {
         Login loginDetails = new Login(loggedIn, loginUrl, logoutUrl, userEmail);
 
         response.setContentType("application/json");
-        response.getWriter().println(JsonUtility.toJsonDisableHtmlEscaping(loginDetails));
+        response.getWriter().println(JsonUtility.toJson(loginDetails));
         return;
     }
 }
