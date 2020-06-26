@@ -21,7 +21,10 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import com.google.sps.data.Comment; 
+import com.google.sps.servlets.JsonUtility;
 import java.util.ArrayList;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
@@ -51,13 +54,21 @@ public class DataServlet extends HttpServlet {
     }
 
     response.setContentType("application/json;");
-    response.getWriter().println(convertToJsonUsingGson(commentList));
+    response.getWriter().println(JsonUtility.toJson(commentList));
   }
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    UserService userService = UserServiceFactory.getUserService();
+
+    // user not logged in, can not make comments
+    if (!userService.isUserLoggedIn()){
+        response.sendError(403, "Not authorized to comment.");
+        return;
+    }
+
     long timestamp = System.currentTimeMillis();
-    String userName = request.getParameter("user-name");
+    String userName = userService.getCurrentUser().getNickname();
     String userComment = request.getParameter("user-comment");
 
     // check whether userComment is empty or null
@@ -86,12 +97,5 @@ public class DataServlet extends HttpServlet {
         return true;
     }
     return false;
-  }
-
-  // convert to JSON using GSON
-  private String convertToJsonUsingGson(ArrayList<Comment> commentsList) {
-    Gson gson = new Gson();
-    String json = gson.toJson(commentsList);
-    return json;
   }
 }

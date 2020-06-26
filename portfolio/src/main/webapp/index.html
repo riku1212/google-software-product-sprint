@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="style.css"> 
     <script src="script.js"></script>
 
-  <body onload="getComments()">
+  <body onload="getComments();createCommentForm();">
     <div id="content">
         <h1>Hello, everyone!</h1>
         <h3>Welcome to my personal portfolio.</h3>
@@ -28,7 +28,7 @@
         <img src="images/kusuriya.jpg" alt="Kusuriya" width="200" class="center">
         <p>This is my current favourite manga!</p>
 
-        <section id='dynamic-content'>
+        <section id="dynamic-content">
             <button class="btn btn-primary" onclick="displayAbout()">About me</button>
             <button class="btn btn-primary" onclick="displayHobbies()">Hobbies</button>
             <a class="btn btn-primary" href="/Inggriany_s_CV.pdf">Resume</a>
@@ -39,15 +39,16 @@
         </section>
 
         <h2>This is the comments section!</h2>
-        <form action="/data" method="POST">
-            <p>Name: </p>
-            <input type="text" name="user-name">
-            <br/>
-            <p>Leave your comments here: </p>
-            <textarea name="user-comment"></textarea>
-            <br/>
-            <input type="submit" />  
-        </form>
+        <div id="log-button"></div>
+        <div id="comment-form">
+            <form action="/data" method="POST">
+                <label for="user-comment">Leave your comments here: </label>
+                <br/>
+                <textarea name="user-comment"></textarea>
+                <br/>
+                <input type="submit" />  
+            </form>
+        </div>
 
         <br/>
 
