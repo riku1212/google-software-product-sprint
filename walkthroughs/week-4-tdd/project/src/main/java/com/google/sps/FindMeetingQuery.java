@@ -29,13 +29,16 @@ public final class FindMeetingQuery {
     * MeetingRequest. A TimeRange is available if the person in MeetingRequest are all available.
     * We first do this by checking which TimeRange are the attendees not available in and 
     * use sliding window to record the available TimeRange provided they satisfy the duration.
+    * Let E be the maximum number of events and P be the maximum number of participants.
+    * Time complexity is O(EP + O(mergeEventTime)) as we only need to determine which events 
+    * are unavailable (takes O(EP)), merge them, and use sliding window to keep track of available
+    * timings (takes O(E)). Thus, complexity is O(EP + O(mergeEventTime)) = O(EP + ElogE).
     * @param    events  a collection of Event objects
     * @param    request a MeetingRequest object
     * @return           collection of available TimeRange  
     */
     public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
         ArrayList<TimeRange> overlappingTime = new ArrayList<TimeRange>();
-        ArrayList<TimeRange> mergedEventTime = new ArrayList<TimeRange>();
         ArrayList<TimeRange> availableTime = new ArrayList<TimeRange>();
         Set<String> requestAttendees = new HashSet<String>(request.getAttendees());
 
@@ -49,11 +52,11 @@ public final class FindMeetingQuery {
         }
 
         // merge eventTime time range
-        mergedEventTime = mergeEventTime(overlappingTime);
+        ArrayList<TimeRange> mergedEventTime = mergeEventTime(overlappingTime);
 
         // sliding window to find available timing that matches the duration
         int prevEnd = TimeRange.START_OF_DAY;
-        long duration=request.getDuration();
+        long duration = request.getDuration();
 
         // check from START_OF_DAY and invertals within each event
         for(TimeRange curEvent: mergedEventTime){
@@ -74,7 +77,8 @@ public final class FindMeetingQuery {
     /**
     * This function will merge overlapping intervals. We do this by first sorting event time by 
     * their start time, and try to merge greedily as long as the next event time is still 
-    * overlapping. 
+    * overlapping. Time complexity is O(ElogE) as we need to sort the event time and merging them
+    * takes linear time.
     * @param    events  a collection of Event objects
     * @return           collection of merged event time, sorted by start
     */
@@ -83,7 +87,8 @@ public final class FindMeetingQuery {
 
         Collections.sort(eventTime, TimeRange.ORDER_BY_START);
         ArrayList<TimeRange> mergedEventTime = new ArrayList();  
-        int prevStart = eventTime.get(0).start(), prevEnd = eventTime.get(0).end();
+        int prevStart = eventTime.get(0).start();
+        int prevEnd = eventTime.get(0).end();
 
         for (int curIndex = 0; curIndex < eventTime.size(); curIndex++){
             TimeRange curEvent = eventTime.get(curIndex);
